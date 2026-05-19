@@ -346,7 +346,7 @@ Although the GUI includes a fully functional Open‑Stream‑Map integration for
 
 Because the SSH certificate could not be deployed, the webserver does not have ample security measures. This lacking implementation represents a further development target, where the implementation of certification and stricter access-control policies should be prioritized. Nevertheless, the limited security exposure the system experiences given it is run locally means the lacking security measures does not affect the validity of the experimental results.
 
-\section{Temp name}
+\section{System Integration and Software Environment}
 As originally planned, the system was to run on two Raspberry-Pis: one dedicated to the camera and a second responsible for the web server, machine‑learning‑based sound classification, and connection to the microphone array. During integration the Raspberry-Pi designated for the primary subsystem overheated, so we migrated the live‑system test to a laptop.
 
 This migration introduced a new problem: the newer TensorFlow release is not compatible with Windows, which forced operation in an environment with an older Python interpreter (version 3.10.20). Consequently, several dependent libraries also had to be downgraded.

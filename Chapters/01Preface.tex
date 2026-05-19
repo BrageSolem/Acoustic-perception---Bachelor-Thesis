@@ -1,9 +1,30 @@
-%\noindent You may include acknowledgements and thanks as part of your preface on this page, or you may add it as a new chapter after the preface.
+This thesis was submitted in partial fulfilment of the requirements for the 
+degree of Bachelor of Engineering in Automation and Intelligent Systems at 
+the Norwegian University of Science and Technology (NTNU), June 2026.
 
-ChatGPT (\cite{chatgpt2026}) and Claude (\cite{anthropic2026}) were used as writing 
-and programming aids throughout the project. All arguments, conclusions, 
-and technical decisions presented in this thesis were identified and chosen 
-independently by the authors. AI assistance was used solely to generate 
-and/or refine the written formulation of these arguments, and all 
-AI-assisted content was reviewed and verified by the authors before 
-inclusion.
+\vspace{1em}
+
+The work was carried out as a group project, with each author taking primary 
+responsibility for distinct subsystems. \textbf{Mateusz Dabrowa} was responsible for the acoustic subsystem of the project, covering the complete signal path from the microphone array to acoustic direction estimation. This included the C-based STM32F413 firmware, DFSDM peripheral configuration, DMA-based audio buffering, and USB CDC communication. He also developed the Python-based acoustic processing pipeline, including signal preprocessing, feature extraction, GCC-PHAT based TDOA estimation, and DOA estimation. In addition, he designed and fabricated the custom PCBs and the microphone mount. \textbf{Andreas Jortveit} was responsible for the visual 
+detection subsystem, including training and deploying the YOLOv8n object 
+detection model, integrating the Hailo AI HAT+ accelerator on the Raspberry 
+Pi 5, the camera pipeline and MQTT coordinate publishing, and the 3D design 
+of the pan-tilt camera platform. \textbf{Brage Solem} was responsible for the 
+machine learning sound classification pipeline, including the Convolutional 
+Neural Network and decision-tree classifiers, feature extraction, dataset 
+preparation, and the development of the web-based GUI and server. Overall 
+system integration was a collaborative effort by all three authors.
+
+\vspace{1em}
+
+The authors would like to thank supervisors Erlend Magnus Lervik Coates and Arne Styve, as well as
+co-supervisor Kai Erik Hoff for their guidance throughout the project.
+
+\vspace{1em}
+
+ChatGPT (\cite{chatgpt2026}) and Claude (\cite{anthropic2026}) were used as 
+writing and programming aids throughout the project. All arguments, 
+conclusions, and technical decisions presented in this thesis were identified 
+and chosen independently by the authors. AI assistance was used solely to 
+generate and/or refine the written formulation of these arguments, and all 
+AI-assisted content was reviewed and verified by the authors before inclusion. In some parts of the thesis, mainly the Abstract, Introduction, Conclusion and parts of the Discussion, AI was relied on more heavily due to time constraints. 

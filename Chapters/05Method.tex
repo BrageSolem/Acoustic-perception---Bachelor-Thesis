@@ -1282,12 +1282,12 @@ Additionally the root-mean-square or simply (RMS) value was used as a relative m
 rms_per_channel = np.sqrt(np.mean(df**2))
 \end{lstlisting}
 
-The energy level in db, was found by using Equation~\ref{eq:log_phone_volume}.
+%The energy level in db, was found by using Equation~\ref{eq:log_phone_volume}.
 
-\begin{equation}
-    \label{eq:log_phone_volume}
-    Relative \space level= 20\log_{10}(\frac{level_{test}}{level_{100}})
-\end{equation}
+%\begin{equation}
+%    \label{eq:log_phone_volume}
+%    Relative \space level= 20\log_{10}(\frac{level_{test}}{level_{100}})
+%\end{equation}
 
 \subsubsection{Stage 3: Live drone test}
 The third and the last stage of the DOA estimation testing, was conducted by using the drone present at the visualization lab. The first series of tests did not involve the use of the ML or the camera, and the setup was as seen in Figure~\ref{fig:doa_3_stage_no_camera}. Where the bottom part of the tower, with the microphones mounted on it, was placed in the middle of the laboratory. \\
@@ -1316,8 +1316,6 @@ The final test was conducted after the ML-algorithm togheter with the camera was
 The ML was tested by letting the system record the sound without the drone present. The system was expected to return the "Not a drone" flag, which would not allow for the DOA estimation to be conducted, and later the drone would be flown, so that the ML could return the "drone" falg and allow for DOA estimation.\\
 
 After the ML algorithm was verified, the final test was conducted, where the drone was flawn around the tower, in varying distance but not outside the safety area designated in the laboratory ,due to the safety conserns. The system was expected to accurately produce a DOA estimation as it was proven possible in the previous tests. Since the drone was to be in constant circulation around the tower, it was expected that the DOA estiamtion will lag behind the drone with a lag of atleast 1 second, due to the duration of the recorded sound, and some additional overhead caused by the other modules in the system.\\  
-
-\subsection{Sound classification tests} % mfcc
 
 \subsection{Hardware test}
 

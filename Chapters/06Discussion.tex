@@ -130,9 +130,9 @@ The CCA02M2 which was used in the early stages of the project, was meant to be r
 \section{Distance detection of the sound source}
 The system currently does not allow for the distance detetion of the incoming drone solely based on the acoustic data. In the current design the distance to the drone may only be estimated based on the camera feed.
 
-\section{Prediction of the future DOA based on the rate of change - NOT DONE}
+\section{Prediction of the future DOA based on the rate of change}
+The estimated DOA values could be used to predict the future DOA of the detected drone. In the current design this is not implemented. It could however be achieved by running an additional ML script that could be trained based on the data gathered while system runs. It may however come with additional lag in the system, if the training data load would be too heavy. 
 
-.............
 
 \section{Use of threads in the program}
 The current program design for sound acquistion and processing, as seen in the flowcharts included in the methods section, is sequenctional. This forces the program to execute each consecutive step such as MFCC extraction and the DOA estimation, before the new sound could be recorded and processed. This creates the additional lag and inaccuracy in the DOA estimation, as the estimated DOA represents the position of the drone at start of the iteration, and not necessarily the drone position after the full processing pipeline has finished.\\

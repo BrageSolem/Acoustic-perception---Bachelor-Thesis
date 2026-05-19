@@ -414,9 +414,101 @@ This section presents the theoretical background for the feature extraction meth
     
 
 \section{ML classification}
-\subsection{Computer vision - YOLOv8n}
+\subsection{YOLO Object Detection}
 
-YOLO (You Only Look Once) is a real-time single-stage object detection model based on Convolutional Neural Networks (CNNs). Unlike two-stage detectors such as Faster R-CNN, which require separate region proposal and classification steps, YOLO divides the input image into a grid and performs both object localization and classification in a single pass, achieving significantly faster inference speeds. Since its introduction by \cite{redmon2016yolo}, the model has gone through multiple iterations up to YOLOv8, with each version improving upon the speed and accuracy of its predecessor. (\cite{vijayakumar2024yolo})
+YOLO (You Only Look Once) is a real-time single-stage object detection 
+model based on Convolutional Neural Networks (CNNs). Unlike two-stage 
+detectors such as Faster R-CNN, which require separate region proposal 
+and classification passes, YOLO divides the input image into a grid and 
+performs both object localization and classification in a single forward 
+pass, achieving significantly faster inference speeds \cite{redmon2016yolo}. 
+Where R-CNN takes around 47 seconds to process a single image due to 
+classifying approximately 2000 region proposals, YOLO processes the entire 
+image in one shot, making it far more suitable for time-sensitive 
+applications \cite{vijayakumar2024yolo}. Since its introduction in 2015, 
+the model has undergone continuous architectural refinement, with each 
+version addressing specific limitations of its predecessor 
+\cite{vijayakumar2024yolo, sapkota2025ultralytics}.
+
+Key milestones in this evolution include YOLOv2, which introduced anchor 
+boxes and batch normalization \cite{vijayakumar2024yolo}; YOLOv3, which 
+deepened the backbone to Darknet-53 and added multi-scale feature 
+prediction through a Feature Pyramid Network (FPN) \cite{vijayakumar2024yolo}; 
+and YOLOv4, which incorporated CSPDarknet-53, a Path Aggregation Network 
+(PANet) neck, and the CIoU loss function \cite{vijayakumar2024yolo}. 
+YOLOv5 marked a decisive shift to a fully PyTorch-native implementation, 
+introducing five modular depth- and width-scaled variants and a unified 
+training and export toolchain \cite{vijayakumar2024yolo, sapkota2025ultralytics}.
+
+
+\subsection{YOLOv8 Architecture}
+
+YOLOv8, released by Ultralytics in January 2023, follows the standard 
+three-part structure of backbone, neck, and head that became established 
+from YOLOv3 onwards \cite{vijayakumar2024yolo}, and introduces targeted 
+improvements at each stage \cite{vijayakumar2024yolo, sapkota2025ultralytics}.
+
+The \textbf{backbone} replaces earlier C3 modules with a new C2f module 
+--- a Cross Stage Partial structure incorporating two convolutional 
+operations and a bottleneck --- which maintains receptive-field richness 
+while reducing parameter overhead \cite{sapkota2025ultralytics}. A Spatial 
+Pyramid Pooling Fast (SPPF) layer follows the backbone to aggregate 
+context across multiple spatial scales \cite{sapkota2025ultralytics}. The 
+\textbf{neck} uses a PANet-style structure to combine top-down and 
+bottom-up pathways, ensuring that both high-level semantic information and 
+fine-grained spatial detail flow into the head \cite{vijayakumar2024yolo}.
+
+The most significant change in YOLOv8 is the fully \textbf{decoupled 
+detection head}, which separates the classification and bounding box 
+regression branches into two independent streams \cite{sapkota2025ultralytics}. 
+This mitigates gradient interference between the two objectives and 
+improves convergence \cite{sapkota2025ultralytics}. Complementing this, 
+YOLOv8 adopts a fully \textbf{anchor-free} design, directly predicting 
+normalized bounding box parameters for candidate points on the feature 
+map, removing the need for anchor clustering and improving generalization 
+across datasets with differing object aspect-ratio statistics 
+\cite{vijayakumar2024yolo, sapkota2025ultralytics}. For bounding box 
+regression, YOLOv8 uses the CIoU loss function, and binary cross-entropy 
+for classification \cite{vijayakumar2024yolo}. Following inference, 
+Non-Maximum Suppression (NMS) is applied to suppress redundant overlapping 
+detections, retaining only the highest-confidence bounding box for each 
+object \cite{vijayakumar2024yolo}.
+
+YOLOv8 is offered in five scaled variants --- nano (n), small (s), 
+medium (m), large (l), and extra-large (x) --- which differ in network 
+depth and width \cite{sapkota2025ultralytics}. This thesis uses 
+\textbf{YOLOv8n}, the nano variant, which has approximately 3.2 million 
+parameters and 8.7 billion FLOPs \cite{sapkota2025ultralytics}. On the 
+MS COCO validation set at 640$\times$640 pixel input resolution, YOLOv8n 
+achieves a mean Average Precision (mAP@0.50:0.95) of approximately 37.3\%, 
+with a CPU latency of around 80.4\,ms per image (ONNX) and under 1\,ms 
+on an NVIDIA T4 GPU (TensorRT) \cite{sapkota2025ultralytics}.
+
+
+\subsection{Performance Metrics}
+
+Object detection performance is primarily evaluated using \textbf{Intersection 
+over Union (IoU)} and \textbf{mean Average Precision (mAP)} 
+\cite{vijayakumar2024yolo}. IoU measures the spatial overlap between a 
+predicted bounding box and the ground-truth box, calculated as the ratio 
+of their intersection to their union area, ranging from 0 to 1 
+\cite{vijayakumar2024yolo}. A detection is considered correct only when 
+its IoU with the matched ground truth exceeds a set threshold, most 
+commonly 0.5 \cite{vijayakumar2024yolo, sapkota2025ultralytics}.
+
+Precision measures the proportion of predicted detections that are 
+correct (TP / (TP + FP)), while Recall measures the proportion of actual 
+objects that are successfully detected (TP / (TP + FN)) 
+\cite{vijayakumar2024yolo}. Average Precision (AP) is computed as the 
+area under the precision--recall curve for a single class, and mAP 
+averages this over all classes \cite{vijayakumar2024yolo}. YOLO models 
+use mAP as the primary metric in preference to the F1 score, as the 
+F1 score can be heavily skewed toward majority classes in datasets with 
+class imbalance, making it unreliable for evaluating performance on 
+minority classes \cite{vijayakumar2024yolo}. The stricter COCO-style 
+evaluation reports mAP@0.50:0.95, averaging AP over ten IoU thresholds 
+from 0.50 to 0.95 in steps of 0.05, penalizing imprecise localization 
+more heavily than the older Pascal VOC standard \cite{sapkota2025ultralytics}.
 
 \subsection{Sound classification}
 \subsubsection{Convolutional Neural Network}

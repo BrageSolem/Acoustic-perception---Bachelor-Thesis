@@ -1,0 +1,152 @@
+\section{Motivation}
+
+
+Due to the rapid development and sales of drones, especially following the war in 
+Ukraine, there is currently a significant need for robust drone detection systems 
+(\cite{macedo2025drone}). The biggest threats associated with drones include their 
+capability to carry small explosives, as well as chemical and biological weapons 
+(\cite{seidaliyeva2024advances}). There is also a private security aspect, as drones 
+can be used for espionage against both critical infrastructure and private persons 
+(\cite{seidaliyeva2024advances}). Drones could also be used to smuggle illegal items 
+and weapons across borders more discreetly (\cite{seidaliyeva2024advances}), and are 
+becoming increasingly cheaper and accessible (\cite{seidaliyeva2024advances}). The 
+scale of the problem is reflected in incident data: over 150 drone incidents were 
+reported globally in 2023 alone (\cite{seidaliyeva2024advances}), with 38\% related 
+to smuggling across borders, 28\% involving delivery of contraband into prisons, and 
+18\% directly affecting airports through near-collisions or runway closures 
+(\cite{seidaliyeva2024advances}). Notable incidents include the temporary closure of 
+Gatwick Airport in May 2023 and a near-miss between a commercial aircraft and a drone 
+at Stansted Airport in December 2022 (\cite{seidaliyeva2024advances}), illustrating 
+the direct threat to civil aviation safety. These issues highlight the need for robust 
+drone detection systems for both personal and societal security 
+(\cite{seidaliyeva2024advances, macedo2025drone}).
+
+ \vspace{1em}
+
+The four main methods of detecting drones are radar sensors, Radio Frequency (RF) 
+sensors, audio sensors, and camera sensors (\cite{seidaliyeva2024advances}). While 
+radar systems offer the longest detection range of over 10 km (\cite{macedo2025drone}) 
+and RF-based systems achieve classification accuracies approaching 99\% 
+(\cite{macedo2025drone}), both require specialist hardware and come with significantly 
+higher costs (\cite{macedo2025drone}). Camera-based systems can achieve precision 
+above 90\% at speeds up to 170 FPS (\cite{macedo2025drone}), and acoustic sensors 
+can be built with consumer-grade microphones at a cost of only a few hundred dollars 
+(\cite{macedo2025drone}). This cost differential motivates the approach taken in this 
+project, which combines acoustic and visual sensing to achieve reliable detection 
+without specialist hardware (\cite{macedo2025drone, seidaliyeva2024advances}).
+
+The aim of this project is to develop a low-cost drone detection system using only 
+3D-printed and off-the-shelf components, making robust drone detection accessible 
+to private individuals and organisations that cannot justify the cost of commercial 
+solutions.
+
+\section{Project description}
+
+\subsection{Socio-economic aspects}
+
+
+The total hardware cost of the system amounts to approximately NOK~8,503 
+(Table~\ref{tab:equipment}), making it accessible to private individuals, 
+small businesses, and municipalities that cannot justify the cost of commercial 
+drone detection solutions. Commercial EO/IR camera systems range from approximately 
+€9,000 to €72,000 (NOK~97,000--778,000), and radar-based systems from €27,000 to 
+over €450,000 (NOK~292,000--4,860,000) (\cite{airsight2025buyersguide}), placing them out of 
+reach for most non-military users. Acoustic detection systems, by contrast, can be 
+implemented with consumer-grade microphones for as little as a few hundred dollars 
+(\cite{macedo2025drone}), and camera-based systems can similarly be built at low cost 
+using standard processing boards (\cite{macedo2025drone}). The proposed system uses 
+exclusively off-the-shelf components and open-source software, with no recurring 
+licensing costs, and the 3D-printed mechanical components further reduce cost and 
+allow local fabrication without specialist manufacturing.
+
+Beyond security applications, accessible drone detection carries broader 
+socioeconomic benefits (\cite{seidaliyeva2024advances}). Critical infrastructure 
+such as power stations, water treatment facilities, and communication towers is 
+increasingly vulnerable to drone-based surveillance and sabotage 
+(\cite{seidaliyeva2024advances}), yet many operators lack the budget for professional 
+detection systems (\cite{macedo2025drone}). A low-cost solution based on off-the-shelf 
+components lowers the barrier to entry significantly, enabling wider adoption across 
+both public and private sectors (\cite{macedo2025drone}). For private individuals, 
+the system addresses growing concerns around privacy violations and property 
+surveillance by consumer drones (\cite{seidaliyeva2024advances}), which existing 
+legislation alone has proven insufficient to prevent (\cite{seidaliyeva2024advances}). 
+Furthermore, by relying entirely on 3D-printed parts and standard electronic 
+components, the system could be locally produced and maintained without specialist 
+knowledge, making it suitable for deployment in remote areas or developing regions 
+where commercial alternatives are unavailable.
+
+\subsection{Existing solutions}
+
+Existing drone detection solutions can be grouped into four main categories: radar, 
+Radio Frequency (RF), acoustic, and camera-based systems 
+(\cite{seidaliyeva2024advances, macedo2025drone}). Radar systems provide the longest 
+detection range, exceeding 10 km in some implementations (\cite{macedo2025drone}), 
+but suffer from high false target rates exceeding 50\% in real-world airport tests 
+(\cite{macedo2025drone}), and struggle to distinguish drones from birds 
+(\cite{macedo2025drone, seidaliyeva2024advances}). RF-based systems achieve 
+classification accuracies approaching 99\% for known drone protocols 
+(\cite{macedo2025drone}), but cannot detect autonomous drones that do not emit 
+control signals (\cite{seidaliyeva2024advances}), and require dense sensor networks 
+of more than 20 nodes for reliable coverage of large areas (\cite{macedo2025drone}). 
+Acoustic systems are low-cost and require no line of sight 
+(\cite{seidaliyeva2024advances}), but their effective detection range is typically 
+limited to 160--290 metres depending on background noise conditions 
+(\cite{macedo2025drone}). Camera-based systems using deep learning --- particularly 
+the YOLO family of models --- have demonstrated strong real-time detection 
+performance, with precision exceeding 90\% at speeds up to 170 FPS 
+(\cite{macedo2025drone}), though they are susceptible to poor lighting conditions 
+and require a clear line of sight (\cite{seidaliyeva2024advances, macedo2025drone}). 
+Multimodal approaches combining several of these modalities show the greatest 
+robustness, with positioning errors below 1.5\% of detection range in some 
+implementations (\cite{macedo2025drone}), motivating the acoustic-visual fusion 
+approach taken in this project.
+
+\subsection{Problem statement}
+The overall goal of this project is to develop a low-cost drone detection 
+system using exclusively off-the-shelf and 3D-printed components, combining 
+acoustic and visual sensing modalities. The camera and computer vision 
+subsystem addresses the visual detection component of this system, with 
+the core challenge being to achieve reliable real-time drone detection 
+and tracking on resource-constrained embedded hardware, without relying 
+on expensive dedicated computing infrastructure.
+
+The camera subsystem was designed to fulfil four interconnected objectives. 
+First, to train and deploy a YOLOv8n object detection model capable of 
+reliably identifying drones across a variety of drone types, backgrounds, 
+and distances. Second, to deploy this model on a Raspberry Pi 5 with a 
+Hailo AI HAT+ accelerator such that inference could run in real time at 
+a frame rate suitable for tracking a moving drone. Third, to publish the 
+pixel coordinates of detected drones over MQTT to the Arduino-based motor 
+controller, enabling the pan-tilt camera platform to orient toward and 
+follow the detected target. Fourth, to stream the live camera feed 
+including detection overlays to the web-based GUI, providing the 
+operator with a real-time visual of the detection area.
+
+The intended operational flow of the full system places the camera 
+subsystem as the second stage of a two-stage detection pipeline. The 
+acoustic microphone array first estimates the direction of arrival of 
+drone sound, orienting the camera platform toward the target area. 
+Once the camera is pointing in approximately the right direction, 
+the YOLO detection takes over for visual confirmation and precise 
+localisation, with the detected pixel coordinates driving continuous 
+motor adjustments to keep the drone within the camera frame. This 
+coarse-to-fine strategy means the camera subsystem does not need 
+to scan the full 360° field of view independently, relying instead 
+on the acoustic subsystem to narrow the search space first.
+
+A key design constraint throughout was cost — the entire camera 
+subsystem, including the Raspberry Pi 5, Hailo AI HAT+, and camera 
+module, was required to remain within a budget accessible to private 
+individuals and small organisations. Performance targets were defined 
+by what was achievable within this constraint rather than by 
+predetermined specifications, with the goal being to demonstrate 
+that real-time drone detection and tracking is feasible on low-cost 
+embedded hardware.
+
+The real-time inference and coordinate publishing were successfully 
+demonstrated in a live laboratory test. However, the full closed-loop 
+tracking — where motor movement is driven continuously by YOLO 
+detections following the initial acoustic orientation — was not 
+completed within the project timeframe due to issues with the motor 
+control hardware. The video streaming to the GUI was successfully 
+implemented.

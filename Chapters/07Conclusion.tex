@@ -1,0 +1,57 @@
+This project set out to develop a low-cost multimodal drone detection 
+system using exclusively off-the-shelf and 3D-printed components, 
+combining acoustic and visual sensing to achieve reliable detection 
+without specialist hardware. The results demonstrate that this goal 
+was largely achieved within the project constraints.
+
+The acoustic subsystem successfully progressed through three 
+microcontroller iterations before arriving at the STM32F413 with 
+DFSDM-based PDM-to-PCM conversion as the final working 
+configuration. The GCC-PHAT direction of arrival algorithm 
+demonstrated accurate azimuth estimation of a live drone in 
+laboratory conditions, with a full pipeline iteration time of 
+approximately 1.285 seconds including sound classification. 
+The CNN sound classifier achieved 99\% accuracy on microphone 
+array data and performed reliably during live testing, correctly 
+distinguishing drone sound from background noise in all but one 
+outlier iteration out of thirty. The decision-tree accumulative 
+classifier, while performing well on public dataset evaluation, 
+failed to generalise to the microphone array recordings, indicating 
+a domain mismatch between training data and real deployment 
+conditions that warrants further investigation.
+
+The visual detection subsystem achieved its primary objectives. 
+The YOLOv8n model trained on the drone detection dataset of 
+Pawełczyk and Wojtyra achieved an mAP@0.50 of 0.835 and an F1 
+score of 0.81 at a confidence threshold of 0.571, outperforming 
+the MobileNet V1 baseline from the original dataset paper. 
+Deployed on a Raspberry Pi~5 with a Hailo AI HAT+ accelerator, 
+the model achieved approximately 108 frames per second inference, 
+well within the requirements for real-time tracking, at a CPU 
+usage of only 29.7\% leaving substantial headroom for system 
+integration. Real-time coordinate publishing over MQTT and live 
+video streaming to the web-based GUI were both successfully 
+demonstrated. The full closed-loop camera tracking, where motor 
+movement is driven continuously by YOLO detections following the 
+initial acoustic orientation, was not completed within the project 
+timeframe due to issues with the motor control hardware, which 
+is identified as the primary target for future development.
+
+The complete system was realised at a total hardware cost of 
+approximately NOK~8,503, representing a reduction of over an order 
+of magnitude compared to entry-level commercial drone detection 
+solutions, while demonstrating real-time multimodal detection 
+capability. The coarse-to-fine architecture, in which acoustic 
+DOA estimation narrows the search space for the visual detector, 
+proved sound in principle and was partially validated through 
+separate testing of each subsystem.
+
+Future work should prioritise completing the closed-loop motor 
+tracking, conducting outdoor detection performance evaluation 
+at measured distances using consumer quadcopters in 
+representative civilian environments, and improving the 
+decision-tree classifier's generalisation to real microphone 
+array data. The addition of proper quantization calibration 
+using representative drone images during the Hailo HEF 
+conversion process would also likely improve visual detection 
+accuracy on the deployed hardware.

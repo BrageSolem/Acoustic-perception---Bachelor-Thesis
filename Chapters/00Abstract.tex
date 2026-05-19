@@ -1,0 +1,98 @@
+The increasing accessibility and falling cost of consumer drones has 
+created a growing need for affordable detection systems that can be 
+deployed by private individuals and small organisations. Existing 
+commercial solutions based on radar and electro-optical sensors are 
+priced far beyond the reach of most non-military users, while 
+academic research in this area rarely reports hardware costs alongside 
+detection performance. This thesis presents the design, implementation, 
+and testing of a low-cost multimodal drone detection system built 
+entirely from off-the-shelf and 3D-printed components, with a total 
+hardware cost of approximately NOK~ 10,000.
+
+The system combines a four-element MEMS microphone array with a 
+pan-tilt camera platform running a YOLOv8n object detection model, 
+following a coarse-to-fine detection strategy in which acoustic 
+direction of arrival estimation orients the camera toward the target 
+before visual detection takes over. Acoustic signal acquisition is 
+handled by an STM32F413 microcontroller using the DFSDM peripheral 
+for PDM-to-PCM conversion, with direction of arrival estimated using 
+the GCC-PHAT algorithm. Sound classification is performed by two 
+machine learning models: a Convolutional Neural Network and a 
+decision-tree classifier, both trained on a combination of public 
+datasets and data collected with the microphone array. The YOLOv8n 
+model was trained on a public drone detection dataset and deployed 
+on a Raspberry Pi~5 with a Hailo AI HAT+ accelerator, achieving 
+real-time inference at approximately 108 frames per second.
+
+The acoustic DOA estimation was demonstrated to accurately track a 
+live drone circulating around the tower in a laboratory environment, 
+with a full detection pipeline iteration time of approximately 1.285 
+seconds. The CNN sound classifier achieved 99\% accuracy on 
+microphone array recordings and produced no false positives or 
+negatives during the live test, while the YOLOv8n model achieved an 
+mAP@0.50 of 0.835 and an F1 score of 0.81 on the validation dataset. 
+Real-time visual detection and MQTT coordinate publishing were 
+successfully demonstrated in a live laboratory test. The full 
+closed-loop camera tracking was not completed within the project 
+timeframe due to issues with the motor control hardware.
+
+The results demonstrate that a capable multimodal drone detection 
+system can be realised at a fraction of the cost of commercial 
+alternatives, and provide a foundation for future development toward 
+a complete autonomous detection and tracking platform.
+
+
+\newpage
+\textbf{Norsk sammendrag}
+
+Den økte tilgjengeligheten og de fallende prisene på forbrukerdrones 
+har skapt et voksende behov for rimelige deteksjonssystemer som kan 
+tas i bruk av privatpersoner og mindre organisasjoner. Eksisterende 
+kommersielle løsninger basert på radar og elektro-optiske sensorer er 
+priset langt over det de fleste ikke-militære brukere har råd til, 
+mens akademisk forskning på dette feltet sjelden rapporterer 
+maskinvarekostnader sammen med deteksjonsytelse. Denne oppgaven 
+presenterer design, implementasjon og testing av et lavkost multimodalt 
+dronedeteksjonssystem bygget utelukkende av hyllevare- og 
+3D-printede komponenter, med en total maskinvarekostnad på 
+omtrent NOK~10,000.
+
+Systemet kombinerer et firekanalers MEMS-mikrofonarrray med en 
+pan-tilt-kameraplatform som kjører en YOLOv8n 
+objektdeteksjonsmodell, etter en grov-til-fin deteksjonsstrategi 
+der akustisk ankomsretningsestimering orienterer kameraet mot 
+målet før visuell deteksjon overtar. Akustisk signalanskaffelse 
+håndteres av en STM32F413-mikrokontroller ved hjelp av 
+DFSDM-periferiutstyret for PDM-til-PCM-konvertering, med 
+ankomsretning estimert ved hjelp av GCC-PHAT-algoritmen. 
+Lydklassifisering utføres av to maskinlæringsmodeller: et 
+konvolusjonelt nevralt nettverk og en beslutningstreklassifikator, 
+begge trent på en kombinasjon av offentlige datasett og data samlet 
+inn med mikrofonarrayen. YOLOv8n-modellen ble trent på et offentlig 
+dronedeteksjonsdatasett og distribuert på en Raspberry Pi~5 med en 
+Hailo AI HAT+-akselerator, og oppnådde sanntidsinferens med 
+omtrent 108 bilder per sekund.
+
+Den akustiske DOA-estimeringen ble demonstrert å nøyaktig spore en 
+levende drone som sirkulerte rundt tårnet i et laboratoriumsmiljø, 
+med en fullstendig deteksjonspipeline-iterasjonstid på omtrent 
+1,285 sekunder. CNN-lydklassifikatoren oppnådde 99\% nøyaktighet 
+på mikrofonarrayopptak og produserte ingen falske positiver eller 
+negativer under livetesten, mens YOLOv8n-modellen oppnådde en 
+mAP@0.50 på 0,835 og en F1-score på 0,81 på valideringsdatasettet. 
+Sanntids visuell deteksjon og MQTT-koordinatpublisering ble 
+vellykket demonstrert i en levende laboratorietest. Den fullstendige 
+lukkede sløyfe-kamerasporing ble ikke fullført innenfor 
+prosjekttidsrammen på grunn av problemer med motorstyringsmaskinvaren.
+
+Resultatene viser at et kapabelt multimodalt dronedeteksjonssystem 
+kan realiseres til en brøkdel av kostnadene for kommersielle 
+alternativer, og gir et grunnlag for videre utvikling mot en 
+komplett autonom deteksjons- og sporingsplattform.
+
+
+
+
+
+
+
